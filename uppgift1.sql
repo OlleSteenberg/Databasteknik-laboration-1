@@ -2,9 +2,9 @@
 --- drop tables
 ---
 
-DROP TABLE IF EXISTS player_has_position;
-DROP TABLE IF EXISTS player;
 DROP TABLE IF EXISTS player_position;
+DROP TABLE IF EXISTS player;
+DROP TABLE IF EXISTS position;
 DROP TABLE IF EXISTS football_club;
 
 --
@@ -29,10 +29,10 @@ CREATE TABLE player (
 );
 
 --
--- Name: player_position; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: position; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE player_position (
+CREATE TABLE position (
     position_id SERIAL PRIMARY KEY,
     position_name VARCHAR(3) NOT NULL
 );
@@ -41,9 +41,9 @@ CREATE TABLE player_position (
 -- Name: player; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE player_has_position (
+CREATE TABLE player_position (
 		player_id INTEGER REFERENCES player(player_id),
-		position_id INTEGER REFERENCES player_position(position_id),
+		position_id INTEGER REFERENCES position(position_id),
 		PRIMARY KEY(player_id, position_id)
 );
 
@@ -71,14 +71,11 @@ VALUES
 	('Vinicius', 'Junior', 11, 4),
 	('Harry', 'Maguire', 3, 2);
 
-
---	('test', 'reference', 4, 7);
-
 --
--- Data for Name: player_position; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: position; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO player_position (position_name)
+INSERT INTO position (position_name)
 VALUES 
 	('CB'),
 	('LB'),
@@ -89,10 +86,10 @@ VALUES
 	('ST');
 
 --
--- Data for Name: player_has_position; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: player_position; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO player_has_position (player_id, position_id)
+INSERT INTO player_position (player_id, position_id)
 VALUES
 	(1, 1),
 	(1, 2),
@@ -112,12 +109,28 @@ FROM player;
 SELECT firstname, lastname
 FROM player;
 
-DELETE FROM football_club
-WHERE club_name = 'Barcelona';
-
 UPDATE player
 SET club = 4
 WHERE club IS NULL;
+
+-- Tar bort Barcelona som från tabellen av fotbollslag
+DELETE FROM football_club
+WHERE club_name = 'Barcelona';
+
+-- Tar bort player_id 1 från relationstabellen
+DELETE FROM player_position
+WHERE player_id = '1';
+
+-- Tar bort Spelaren som inte tillhör ett lag
+DELETE FROM player
+WHERE club IS NULL;
+
+-- Test för referensintegritet
+--INSERT INTO player (firstname, lastname, shirtnumber, club)
+--VALUES ('test', 'reference', 4, 7);
+
+
+
 
 SELECT *
 FROM player;
