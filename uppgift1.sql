@@ -4,7 +4,7 @@
 
 DROP TABLE IF EXISTS player_position;
 DROP TABLE IF EXISTS player;
-DROP TABLE IF EXISTS position;
+DROP TABLE IF EXISTS positions;
 DROP TABLE IF EXISTS football_club;
 
 --
@@ -29,10 +29,10 @@ CREATE TABLE player (
 );
 
 --
--- Name: position; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: positions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE position (
+CREATE TABLE positions (
     position_id SERIAL PRIMARY KEY,
     position_name VARCHAR(3) NOT NULL
 );
@@ -43,7 +43,7 @@ CREATE TABLE position (
 
 CREATE TABLE player_position (
 		player_id INTEGER REFERENCES player(player_id),
-		position_id INTEGER REFERENCES position(position_id),
+		position_id INTEGER REFERENCES positions(position_id),
 		PRIMARY KEY(player_id, position_id)
 );
 
@@ -72,10 +72,10 @@ VALUES
 	('Harry', 'Maguire', 3, 2);
 
 --
--- Data for Name: position; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: s; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO position (position_name)
+INSERT INTO positions (position_name)
 VALUES 
 	('CB'),
 	('LB'),
@@ -126,8 +126,8 @@ DELETE FROM player
 WHERE club IS NULL;
 
 -- Test för referensintegritet
---INSERT INTO player (firstname, lastname, shirtnumber, club)
---VALUES ('test', 'reference', 4, 7);
+INSERT INTO player (firstname, lastname, shirtnumber, club)
+VALUES ('test', 'reference', 4, 7);
 
 
 
