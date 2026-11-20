@@ -1,3 +1,5 @@
+DROP PROCEDURE IF EXISTS inflation;
+
 CREATE PROCEDURE inflation()
 LANGUAGE plpgsql
 AS $$
@@ -18,7 +20,6 @@ Call inflation();
 -- Visa priserna efter
 SELECT product_name, unit_price
 FROM products;
-
 
 
 -- Uppgift 3.2
@@ -99,7 +100,7 @@ SET unit_price = 24
 WHERE product_name = 'Chai' OR product_name = 'Chang';
 
 UPDATE products
-SET olles_kolumn = '24'
+SET olles_kolumn = 24
 WHERE product_name = 'Chai' OR product_name = 'Chang';
 
 SELECT product_name, unit_price
